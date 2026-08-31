@@ -1,11 +1,28 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout>
-	<Welcome />
+	<h1 class="mb-4 flex items-center text-3xl font-medium">
+		<span class="mr-4 rounded-full bg-accent p-1">
+			<svg
+				class="block"
+				stroke="currentColor"
+				fill="currentColor"
+				stroke-width="0"
+				viewBox="0 0 24 24"
+				xmlns="http://www.w3.org/2000/svg"
+				width="32"
+				height="32"
+				aria-hidden="true"
+			>
+				<path
+					d="M7.4 16.8l1.2-1.6-4-3.2 4-3.2-1.2-1.6-5 4a1 1 0 000 1.6l5 4zm9.2-9.6l-1.2 1.6 4 3.2-4 3.2 1.2 1.6 5-4a1 1 0 000-1.6l-5-4zM15 3.2l-4 18-2-.4 4-18z"
+					stroke="none"></path>
+			</svg>
+		</span>
+		<span>Staffan Mowitz</span>
+	</h1>
+	<p class="mb-2">Front-end web developer located in Gothenburg, Sweden.</p>
+	<p class="mb-2">Currently at <a class="font-medium text-accent underline" href="https://www.hoy.se/">Hoy</a>.</p>
 </Layout>

@@ -1,5 +1,5 @@
 {
-  "name": "",
+  "name": "staffanmowitz.dev",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
@@ -9,6 +9,8 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.15.3"
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^7.2.9",
+    "tailwindcss": "^4.3.3"
   }
 }
