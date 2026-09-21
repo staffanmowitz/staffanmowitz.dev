@@ -1,29 +1,72 @@
 ---
 import Analytics from "@vercel/analytics/astro";
+import { Font, getImage } from "astro:assets";
 import SpeedInsights from "@vercel/speed-insights/astro";
+import spriteSheet from "../assets/spritesheet-3x3.png";
 import "../styles/global.css";
+
+type Props = {
+  image?: {
+    src: string | URL;
+    width?: number | string;
+    height?: number | string;
+    alt?: string;
+  };
+};
+
+const { image } = Astro.props;
+
+const fallbackSprite = await getImage({
+  src: spriteSheet,
+  width: 582,
+  height: 576,
+  format: "webp",
+  quality: "max",
+});
+
+const title = "Staffan Mowitz - Front-end web developer";
+const description = "Front-end web developer located in Gothenburg, Sweden.";
+const site = Astro.site ?? new URL("https://www.staffanmowitz.dev");
+const pageUrl = new URL(Astro.url.pathname, site);
+const imageUrl = new URL(image?.src ?? fallbackSprite.src, site);
+const imageWidth = image?.width ?? 582;
+const imageHeight = image?.height ?? 576;
+const imageAlt = image?.alt ?? "Pixel portrait of Staffan Mowitz";
 ---
 
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="description" content="Front-end web developer located in Gothenburg, Sweden." />
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link
-			href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500&display=swap"
-			rel="stylesheet"
-		/>
-		<title>Staffan Mowitz - Front-end web developer</title>
-	</head>
-	<body
-		class="flex h-dvh flex-col items-end justify-end bg-page p-6 font-sans font-light text-right text-white sm:p-10"
-	>
-		<slot />
-		<Analytics />
-		<SpeedInsights />
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#f7f6f3" />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={pageUrl} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en" />
+    <meta property="og:site_name" content="Staffan Mowitz" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={pageUrl} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:width" content={String(imageWidth)} />
+    <meta property="og:image:height" content={String(imageHeight)} />
+    <meta property="og:image:alt" content={imageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={imageUrl} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <Font cssVariable="--font-silkscreen" preload />
+    <title>{title}</title>
+    <slot name="head" />
+  </head>
+  <body class="h-dvh bg-white px-4 font-body text-xl font-light text-right text-black sm:px-6 xl:px-10">
+    <main class="h-full">
+      <slot />
+    </main>
+    <Analytics />
+    <SpeedInsights />
+  </body>
 </html>

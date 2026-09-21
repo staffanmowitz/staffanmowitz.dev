@@ -1,7 +1,11 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", Helvetica, sans-serif;
-  --color-page: #202020;
-  --color-accent: #6bb45f;
+  --font-body:
+    system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-heading: var(--font-silkscreen);
+  --color-white: #f7f6f3;
+  --color-black: #202020;
+  --color-accent: #496c87;
+  --sprite-size: min(21rem, 48vw);
 }

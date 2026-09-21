@@ -1,28 +1,31 @@
 ---
+import { getImage } from "astro:assets";
+import SpriteViewer from "../components/SpriteViewer.astro";
 import Layout from "../layouts/Layout.astro";
+import spriteSheet from "../assets/spritesheet-3x3.png";
+
+const sprite = await getImage({
+  src: spriteSheet,
+  width: 582,
+  height: 576,
+  format: "webp",
+  quality: "max",
+});
 ---
 
 <Layout>
-	<h1 class="mb-4 flex items-center text-3xl font-medium">
-		<span class="mr-4 rounded-full bg-accent p-1">
-			<svg
-				class="block"
-				stroke="currentColor"
-				fill="currentColor"
-				stroke-width="0"
-				viewBox="0 0 24 24"
-				xmlns="http://www.w3.org/2000/svg"
-				width="32"
-				height="32"
-				aria-hidden="true"
-			>
-				<path
-					d="M7.4 16.8l1.2-1.6-4-3.2 4-3.2-1.2-1.6-5 4a1 1 0 000 1.6l5 4zm9.2-9.6l-1.2 1.6 4 3.2-4 3.2 1.2 1.6 5-4a1 1 0 000-1.6l-5-4zM15 3.2l-4 18-2-.4 4-18z"
-					stroke="none"></path>
-			</svg>
-		</span>
-		<span>Staffan Mowitz</span>
-	</h1>
-	<p class="mb-2">Front-end web developer located in Gothenburg, Sweden.</p>
-	<p class="mb-2">Currently at <a class="font-medium text-accent underline" href="https://www.hoy.se/">Hoy</a>.</p>
+  <link slot="head" rel="preload" as="image" href={sprite.src} fetchpriority="high" />
+
+  <div class="flex h-full flex-col justify-between gap-12 sm:flex-row-reverse sm:items-end">
+    <div class="pt-10 sm:min-w-0 sm:flex-1 sm:pt-0 sm:pb-6 xl:pb-10 text-balance">
+      <h1 class="font-heading mb-4 text-4xl font-normal text-accent">
+        Staffan Mowitz
+      </h1>
+      <p class="mb-1">Front-end web developer located in Gothenburg, Sweden. Specialized in React, Next.js and Sanity.</p>
+      <p>
+        Currently at <a class="font-medium text-accent underline" href="https://www.hoy.se/">Hoy</a>.
+      </p>
+    </div>
+    <SpriteViewer src={sprite.src} />
+  </div>
 </Layout>

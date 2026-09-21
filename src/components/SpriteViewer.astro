@@ -1,0 +1,84 @@
+---
+type Props = {
+  src: string;
+};
+
+const { src } = Astro.props;
+---
+
+<div
+  class="aspect-194/192 w-(--sprite-size) pointer-events-none bg-size-[300%_300%] bg-position-[var(--sprite-column)_var(--sprite-row)] bg-no-repeat [image-rendering:pixelated] [--sprite-column:100%] [--sprite-row:0%] sm:[--sprite-column:0%] sm:[--sprite-row:100%] pointer-coarse:[--sprite-column:100%] pointer-coarse:[--sprite-row:0%] motion-reduce:[--sprite-column:100%] motion-reduce:[--sprite-row:0%]"
+  data-sprite-viewer
+  aria-hidden="true"
+  style={`background-image: url(${src})`}
+></div>
+
+<script>
+  const sprite = document.querySelector<HTMLElement>("[data-sprite-viewer]");
+
+  if (sprite) {
+    const pointerQuery = window.matchMedia("(pointer: fine)");
+    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    let animationFrame = 0;
+    let bound = false;
+
+    const updateSprite = (event: PointerEvent) => {
+      cancelAnimationFrame(animationFrame);
+      animationFrame = requestAnimationFrame(() => {
+        const bounds = sprite.getBoundingClientRect();
+        const isOverSprite =
+          event.clientX >= bounds.left &&
+          event.clientX <= bounds.right &&
+          event.clientY >= bounds.top &&
+          event.clientY <= bounds.bottom;
+
+        if (isOverSprite) {
+          sprite.style.setProperty("--sprite-column", "0%");
+          sprite.style.setProperty("--sprite-row", "100%");
+          return;
+        }
+
+        const column = Math.min(2, Math.floor((event.clientX / window.innerWidth) * 3));
+        const row = Math.min(2, Math.floor((event.clientY / window.innerHeight) * 3));
+
+        sprite.style.setProperty("--sprite-column", `${column * 50}%`);
+        sprite.style.setProperty("--sprite-row", `${row * 50}%`);
+      });
+    };
+
+    const resetSprite = () => {
+      cancelAnimationFrame(animationFrame);
+      animationFrame = 0;
+      sprite.style.removeProperty("--sprite-column");
+      sprite.style.removeProperty("--sprite-row");
+    };
+
+    const bind = () => {
+      if (bound) return;
+      window.addEventListener("pointermove", updateSprite, { passive: true });
+      document.documentElement.addEventListener("pointerleave", resetSprite);
+      bound = true;
+    };
+
+    const unbind = () => {
+      if (!bound) return;
+      window.removeEventListener("pointermove", updateSprite);
+      document.documentElement.removeEventListener("pointerleave", resetSprite);
+      resetSprite();
+      bound = false;
+    };
+
+    const syncTracking = () => {
+      if (pointerQuery.matches && !motionQuery.matches) {
+        bind();
+      } else {
+        unbind();
+      }
+    };
+
+    pointerQuery.addEventListener("change", syncTracking);
+    motionQuery.addEventListener("change", syncTracking);
+    syncTracking();
+  }
+</script>
