@@ -16,16 +16,20 @@ const sprite = await getImage({
 <Layout>
   <link slot="head" rel="preload" as="image" href={sprite.src} fetchpriority="high" />
 
-  <div class="flex h-full flex-col justify-between gap-12 sm:flex-row-reverse sm:items-end">
-    <div class="pt-10 sm:min-w-0 sm:flex-1 sm:pt-0 sm:pb-6 xl:pb-10 text-balance max-w-prose">
+  <div class="flex h-full flex-col justify-between gap-4 sm:flex-row-reverse sm:items-end sm:gap-12">
+    <div class="w-full pt-10 text-left sm:min-w-0 sm:flex-1 sm:pt-0 sm:pb-6 sm:text-right xl:pb-10">
       <h1 class="font-heading mb-4 text-4xl font-normal text-accent">
         Staffan Mowitz
       </h1>
-      <p class="mb-1">Front-end web developer located in Gothenburg, Sweden. Specialized in React, Next.js and Sanity.</p>
-      <p>
-        Currently at <a class="font-medium text-accent underline" href="https://www.hoy.se/">Hoy</a>.
-      </p>
+      <div class="text-balance max-w-prose sm:ml-auto sm:text-right">
+        <p class="mb-1">Front-end web developer located in Gothenburg, Sweden. Specialized in React, Next.js and Sanity.</p>
+        <p>
+          Currently at <a class="font-medium text-accent underline" href="https://www.hoy.se/">Hoy</a>.
+        </p>
+      </div>
     </div>
-    <SpriteViewer src={sprite.src} />
+    <div class="self-end -scale-x-100 sm:scale-x-100">
+      <SpriteViewer src={sprite.src} />
+    </div>
   </div>
 </Layout>
